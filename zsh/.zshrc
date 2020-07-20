@@ -217,6 +217,10 @@ function kat() {
   local shell="sh"
   kubectl exec -it $(kgspo $1 ${2:-1} -o=custom-columns=":metadata.name" --no-headers) -n $(kgspo $1 -o=custom-columns=":metadata.namespace" --no-headers | n 1) -c $container $shell
 }
+function kgslog() {
+    local pod=$(kgspo $1 ${2:-1} -o=custom-columns=":metadata.name" --no-headers)
+    kubectl logs -f $pod
+}
 
 function kpf() {
   kubectl port-forward $(kgspo $1 ${4:-1}) $2:$3 &
@@ -263,6 +267,8 @@ if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-clou
 source /etc/bash_completion.d/g4d
 
 alias gcurl='curl -H "Authorization: Bearer $(gcloud auth print-access-token)"'
+alias gpost='gcurl -XPOST -H "Content-Type: application/json"'
+
 
 [ -f "$HOME/.zshrc.corp" ] && source $HOME/.zshrc.corp
 
@@ -348,6 +354,10 @@ public class TestRunner {
     }
 }
 EOF
+}
+
+function genreq() {
+  echo "curl -vvv -H \"Content-type: application/json\" -H \"Authorization: Bearer $(gcloud auth print-access-token)\" \"$1\"  -H \"Cookie: $(blaze run //perftools/tracing/internal/client_side_tracing:generate_cookies -- --config "issue_cookies:true  immediate_use_lifetime_secs:1000000000 deferred_use_lifetime_secs:1000000000 logging_window_secs:100000000 " 2>/dev/null | tail -n 1)\" -H \"$(/google/data/ro/projects/perftools/dapper/dapperget --dapper_header_only)\""
 }
 
 function j () {

@@ -11,3 +11,27 @@ go_proto_library(
     deps = ["$2"]
 )
 endsnippet
+
+snippet gogrpc "Go GRPC Library rule" b
+go_grpc_library(
+    name = "$1",
+    srcs = [":$2"],
+    deps = [":$3"],
+)
+endsnippet
+
+snippet gobinary "Go Binary Rule" b
+go_binary(
+    name = "$1",
+    srcs = ["$2.go"],
+    deps = [":$3"],
+)
+endsnippet
+
+snippet golibrary "Go Library Rule" b
+go_library(
+    name = "$1",
+    srcs = ["$2.go"],
+    deps = [":$3"],
+)
+endsnippet

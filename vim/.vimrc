@@ -116,7 +116,6 @@ noremap h <nop>
 noremap j <nop>
 noremap k <nop>
 noremap l <nop>
-inoremap <esc> <nop>
 
 " Scratch Buffer
 command! SC vnew | setlocal nobuflisted buftype=nofile bufhidden=wipe noswapfile
@@ -132,10 +131,10 @@ cnoremap <expr> <CR> cmdline#AutoComplete()
 " {{{ Autocommands
 
 " Automatically call OSC52 function on yank to sync register with host clipboard
-" augroup Yank
-" autocmd!
-" autocmd TextYankPost * if v:event.operator ==# 'y' | call yank#Osc52Yank() | endif
-" augroup END
+augroup Yank
+	autocmd!
+	autocmd TextYankPost * if v:event.operator ==# 'y' | call yank#Osc52Yank() | endif
+augroup END
 
 " Create file-marks for commonly edited file types
 augroup FileMarks
